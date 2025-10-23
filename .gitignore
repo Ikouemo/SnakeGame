@@ -1,0 +1,22 @@
+# Build files
+*.o
+*.obj
+*.exe
+*.out
+*.log
+
+# macOS system files
+.DS_Store
+
+# CMake / Makefile cache
+CMakeCache.txt
+CMakeFiles/
+Makefile
+
+# IDE-specific
+.vscode/
+.idea/
+
+# Executable
+main
+
