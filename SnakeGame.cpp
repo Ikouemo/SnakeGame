@@ -3,7 +3,7 @@
 #include<string>
 #include<memory>
 #include<chrono>
-#include<cstdlib>
+#include<random>
 #include<SFML/Graphics.hpp>
 
 constexpr auto STEP_TIME = 100;
@@ -141,12 +141,17 @@ void SnakeGame::showDialog(const std::string& message){
 }
 
 void SnakeGame::createNewApple() {
-    int x;
-    int y;
-    do {
-         x = rand() % (width - 2) + 1;
-         y = rand() % (height - 2) + 1;
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<>distX(1, width - 2);
+    std::uniform_int_distribution<>distY(1, width - 2);
 
+    int x, y;
+
+    do {
+         x = distX(gen);
+         y = distY(gen);
+         
     } while (snake->collidesWith(x, y));
    
     apple = std::make_unique<Apple>(x, y);
