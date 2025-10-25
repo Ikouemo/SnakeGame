@@ -5,8 +5,10 @@
 class Apple: public GameItem {
 
 private:
-    static int  nextValue;
+
     const int VALUE;
+    static int  nextValue;
+    
 
 public:
     Apple(int x, int y);

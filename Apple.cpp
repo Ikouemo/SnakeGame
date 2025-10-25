@@ -3,7 +3,7 @@
 
 int Apple::nextValue = 1;
 
-Apple::Apple(int x, int y): VALUE{nextValue++}, GameItem(x, y) {
+Apple::Apple(int x, int y): GameItem(x, y), VALUE{nextValue++} {
     
 }
 

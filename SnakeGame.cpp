@@ -32,8 +32,8 @@ SnakeGame::SnakeGame(): dialogText(font, "") {
         wall.push_back(std::make_unique<Brick>(0, y));;  // linke Wand
         wall.push_back(std::make_unique<Brick>(width - 1, y));; // recte Wand
     }
-
     createNewApple();
+    
     if(!font.openFromFile("arial.ttf")){
         std::cerr << " Failed to load font!" << std::endl;
         exit(1);
@@ -144,14 +144,14 @@ void SnakeGame::createNewApple() {
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_int_distribution<>distX(1, width - 2);
-    std::uniform_int_distribution<>distY(1, width - 2);
+    std::uniform_int_distribution<>distY(1, height - 2);
 
     int x, y;
 
     do {
          x = distX(gen);
          y = distY(gen);
-         
+
     } while (snake->collidesWith(x, y));
    
     apple = std::make_unique<Apple>(x, y);
