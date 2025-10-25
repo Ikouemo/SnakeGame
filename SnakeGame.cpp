@@ -33,7 +33,7 @@ SnakeGame::SnakeGame(): dialogText(font, "") {
         wall.push_back(std::make_unique<Brick>(width - 1, y));; // recte Wand
     }
     createNewApple();
-    
+
     if(!font.openFromFile("arial.ttf")){
         std::cerr << " Failed to load font!" << std::endl;
         exit(1);
@@ -77,7 +77,7 @@ void SnakeGame::updateGame( double time ) {
 
         snake->step();
         lastSnakeUpdate += milliseconds(STEP_TIME);
-        //checkCollisions();
+        checkCollisions();
     }
     
 }
