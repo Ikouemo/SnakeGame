@@ -21,7 +21,7 @@ public:
     
     SnakeGame();
     void paintGame(sf::RenderWindow& window) override;
-    void updateGame(double time) override;
+    bool updateGame(double time) override;
     void handleInput(sf::Keyboard::Key keyCode) override;
     void showDialog (const std::string& message);
     
@@ -39,4 +39,6 @@ private:
     sf::RenderWindow window;
     sf::Text dialogText;
     sf::Font font;
+    bool gameOver {false};
+
 };

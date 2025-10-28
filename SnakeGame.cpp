@@ -40,7 +40,7 @@ SnakeGame::SnakeGame(): dialogText(font, "") {
     }
 
         // Font setzen
-    dialogText.setCharacterSize(24);
+    dialogText.setCharacterSize(15);
     dialogText.setFillColor(sf::Color::White);
     //dialogText.setPosition(100.f, 100.f); // Position im Fenster
  
@@ -62,14 +62,20 @@ void SnakeGame::paintGame(sf::RenderWindow& window) {
 
     // dialog zeichnen
     window.draw(dialogText);
+
 }
 
-void SnakeGame::updateGame( double time ) {
+bool SnakeGame::updateGame( double time ) {
+
+    if(gameOver)
+        return true;
+
     using namespace std::chrono;
     auto now = steady_clock::now();
     auto elapsed = duration_cast<milliseconds> (now - lastSnakeUpdate).count();
 
-    if(elapsed < STEP_TIME) return; // noch kein Schritt fällig
+    if(elapsed < STEP_TIME) 
+        return true;                  // noch kein Schritt fällig
 
     int steps = elapsed / STEP_TIME; // wie viele ganze Schritte ausführen
 
@@ -77,12 +83,19 @@ void SnakeGame::updateGame( double time ) {
 
         snake->step();
         lastSnakeUpdate += milliseconds(STEP_TIME);
-        checkCollisions();
+        if(checkCollisions())
+            return false;
     }
+
+    return true;
     
 }
 
 void SnakeGame::handleInput(sf::Keyboard::Key keyCode) {
+
+    if(gameOver)
+        return;
+
     switch (keyCode)
     {
         case sf::Keyboard::Key::Up:
@@ -113,14 +126,14 @@ bool SnakeGame::checkCollisions() {
     for(auto& w: wall) {
         if(snake->collidesWith(*w)){
             showDialog(" You died!\nScore: " + std::to_string(score));
-            window.close();
+            gameOver = true;
             return true;
             
         }
     }
     if(snake->collidesWithSelf()) {
         showDialog(" Self collision\nScore: " + std::to_string(score));
-        window.close();
+        gameOver = true;
         return true;
         
     }
@@ -137,6 +150,8 @@ bool SnakeGame::checkCollisions() {
 
 void SnakeGame::showDialog(const std::string& message){
     dialogText.setString(message);
+    dialogText.setPosition({10.0f, 10.0f});
+
 
 }
 

@@ -1,5 +1,6 @@
 #include "GameWindow.hpp"
 
+
 #include<SFML/Graphics.hpp>
 #include<chrono>
 
@@ -32,6 +33,7 @@ void GameWindow::start() {
 
         // Spiel aktualisieren
         updateGame(delta);
+        
 
          // Rendern
         window.clear();
