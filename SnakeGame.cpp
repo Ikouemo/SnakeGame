@@ -93,8 +93,13 @@ bool SnakeGame::updateGame( double time ) {
 
 void SnakeGame::handleInput(sf::Keyboard::Key keyCode) {
 
-    if(gameOver)
+    if(gameOver) {
+        if (keyCode == sf::Keyboard::Key::R) {
+            resetGame();  // Ruft GameWindow::resetGame() auf
+            return;
+        }
         return;
+    }
 
     switch (keyCode)
     {
@@ -172,4 +177,23 @@ void SnakeGame::createNewApple() {
     apple = std::make_unique<Apple>(x, y);
 
 
+}
+void SnakeGame::reset() {
+    // Snake zurücksetzen
+    snake = std::make_unique<Snake>(width / 2, height / 2);
+
+    // Game Over Status zurücksetzen
+    gameOver = false;
+
+    // Score zurücksetzen (falls vorhanden)
+    score = 0;
+
+    // WICHTIG: Zeitstempel zurücksetzen
+    lastSnakeUpdate = std::chrono::steady_clock::now();
+
+    // Neuen Apfel erstellen
+    createNewApple();
+
+    // Dialog leeren
+    dialogText.setString("");
 }
