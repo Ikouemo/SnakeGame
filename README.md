@@ -26,6 +26,7 @@ Object-Oriented Programming (OOP) principles
 Modern memory management using std::unique_ptr and std::vector
 
 🧱 Project Structure
+```txt
 SnakeGame/
 │
 ├── Apple.cpp / Apple.hpp         # Apple item logic
@@ -37,6 +38,7 @@ SnakeGame/
 ├── main.cpp                      # Entry point
 ├── .gitignore
 └── arial.ttf                     # Font file
+```
 
 🧑‍💻 Author
 Ivan Wilfried Kouemo
