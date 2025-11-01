@@ -1,32 +1,42 @@
-🐍 Snake Game (C++ & SFML)
-🎮 Overview
+# 🐍 Snake Game (C++ & SFML)
 
-In this project, the classic Snake game is implemented using C++ and SFML (Simple and Fast Multimedia Library).
-The player controls a snake that moves continuously around the field, aiming to eat as many apples as possible without colliding with the walls or itself.
+## 🎮 Overview
 
-Each time the snake eats an apple:
+This project is a modern implementation of the **classic Snake game** using **C++** and the **SFML (Simple and Fast Multimedia Library)** framework.
 
-  Its length increases by one grid square
-  The score increases by +1
+You control a snake that moves around the grid-based field, eating apples to grow longer while avoiding collisions with walls or itself.
 
-The game ends when the snake collides with a wall or its own body.
+**Gameplay mechanics:**
 
-🧩 Features
-Smooth snake movement on a grid-based field
-Random apple placement
-Snake grows after eating apples
-Score tracking
-Collision detection with walls and self
-Simple dialog feedback after game over
+* 🧃 Each apple eaten increases the snake’s length by one square
+* 🏆 The score increases by **+1** for every apple eaten
+* 💥 The game ends if the snake hits a wall or its own body
 
-🛠️ Technologies Used
-C++17
-SFML 3.0.2
-Object-Oriented Programming (OOP) principles
-Modern memory management using std::unique_ptr and std::vector
+---
 
-🧱 Project Structure
-```txt
+## 🧩 Features
+
+✅ Smooth, grid-based snake movement
+🍎 Random apple spawning
+🐍 Snake growth after eating apples
+💯 Real-time score tracking
+🧱 Collision detection (walls & self)
+💬 Simple end-game feedback dialog
+
+---
+
+## 🛠️ Technologies Used
+
+* **C++17**
+* **SFML 3.0.2**
+* **Object-Oriented Programming (OOP)** principles
+* **Modern memory management** (`std::unique_ptr`, `std::vector`)
+
+---
+
+## 🧱 Project Structure
+
+```
 SnakeGame/
 │
 ├── Apple.cpp / Apple.hpp         # Apple item logic
@@ -40,10 +50,16 @@ SnakeGame/
 └── arial.ttf                     # Font file
 ```
 
-🧑‍💻 Author
-Ivan Wilfried Kouemo
-📧 ivanovkouemo@gmail.com
-🔗 GitHub: IKouemo
+---
 
-📝 License
-This project is licensed under the MIT License — feel free to use and modify it.
+## 🧑‍💻 Author
+
+**Ivan Wilfried Kouemo**
+📧 [ivanovkouemo@gmail.com](mailto:ivanovkouemo@gmail.com)
+🔗 [GitHub: IKouemo](https://github.com/IKouemo)
+
+---
+
+## 📝 License
+
+This project is licensed under the **MIT License** — feel free to use, modify, and distribute it freely.
