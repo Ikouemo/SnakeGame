@@ -41,4 +41,6 @@ private:
     sf::Font font;
     bool gameOver {false};
 
+    void reset() override;  // Implementiert spielspezifisches Reset
+
 };
