@@ -187,4 +187,13 @@ void SnakeGame::reset() {
 
     // Score zurücksetzen (falls vorhanden)
     score = 0;
+
+    // WICHTIG: Zeitstempel zurücksetzen
+    lastSnakeUpdate = std::chrono::steady_clock::now();
+
+    // Neuen Apfel erstellen
+    createNewApple();
+
+    // Dialog leeren
+    dialogText.setString("");
 }
