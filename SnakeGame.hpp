@@ -16,8 +16,9 @@ class SnakeGame: public GameWindow {
 
 public:
 
-   static constexpr int SQUARE_SIZE = 16;  // öffentlich & statisch → überall zugreifbar
+   static constexpr int SQUARE_SIZE = 20;  // öffentlich & statisch → überall zugreifbar
    static constexpr int GROW_AMOUNT = 5;
+   static constexpr int HEADER_HEIGHT = 40;
     
     SnakeGame();
     void paintGame(sf::RenderWindow& window) override;

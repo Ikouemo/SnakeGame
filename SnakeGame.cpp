@@ -7,14 +7,14 @@
 #include<SFML/Graphics.hpp>
 
 constexpr auto STEP_TIME = 100;
-constexpr int WINDOW_WIDHT = 800;
+constexpr int WINDOW_WIDTH = 800;
 constexpr int WINDOW_HEIGHT = 600;
-
+constexpr int HEADER_HEIGHT = 40;  // NEU: Platz für Text oben
 
 SnakeGame::SnakeGame(): dialogText(font, "") {
 
-    width = WINDOW_WIDHT / SQUARE_SIZE;
-    height = WINDOW_HEIGHT / SQUARE_SIZE;
+    width = WINDOW_WIDTH / SQUARE_SIZE;
+    height = (WINDOW_HEIGHT - HEADER_HEIGHT) / SQUARE_SIZE;  // GEÄNDERT: Reduzierte Höhe
 
     snake = std::make_unique<Snake>(width / 2, height / 2);
 
@@ -24,13 +24,12 @@ SnakeGame::SnakeGame(): dialogText(font, "") {
 
     for(int x = 0; x < width; x++) {
         wall.push_back(std::make_unique<Brick>(x, 0));  // obere Wand
-         wall.push_back(std::make_unique<Brick>(x, height - 1));; // untere Wand
+        wall.push_back(std::make_unique<Brick>(x, height - 1));  // untere Wand
     }
 
-
     for(int y = 1; y < height - 1; y++) {
-        wall.push_back(std::make_unique<Brick>(0, y));;  // linke Wand
-        wall.push_back(std::make_unique<Brick>(width - 1, y));; // recte Wand
+        wall.push_back(std::make_unique<Brick>(0, y));  // linke Wand
+        wall.push_back(std::make_unique<Brick>(width - 1, y));  // rechte Wand
     }
     createNewApple();
 
@@ -39,11 +38,10 @@ SnakeGame::SnakeGame(): dialogText(font, "") {
         exit(1);
     }
 
-        // Font setzen
-    dialogText.setCharacterSize(15);
+    // Font setzen
+    dialogText.setCharacterSize(20);  // Etwas größer für bessere Lesbarkeit
     dialogText.setFillColor(sf::Color::White);
-    //dialogText.setPosition(100.f, 100.f); // Position im Fenster
- 
+    dialogText.setPosition(10.f, 10.f);  // Oben links im Header-Bereich
 }
 
 void SnakeGame::paintGame(sf::RenderWindow& window) {

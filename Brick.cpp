@@ -11,13 +11,11 @@ void Brick::paintGame(sf::RenderWindow& window) {
     rect.setFillColor(sf::Color::Red);
     auto pos = getPosition();
     sf::Vector2f pixelPos(
-        static_cast<float>(pos.getX() * SnakeGame::SQUARE_SIZE), 
+        static_cast<float>(pos.getX() * SnakeGame::SQUARE_SIZE),
         static_cast<float>(pos.getY() * SnakeGame::SQUARE_SIZE)
     );
 
     rect.setPosition(pixelPos);
-    
-    window.draw(rect);
 
-    
+    window.draw(rect);
 }
