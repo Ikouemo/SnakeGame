@@ -2,6 +2,8 @@
 
 ## 🎮 Overview
 
+![ScreenRecording2025-11-03at16 24 52-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/0908af45-b24e-428d-bcbb-50363d8c497d)
+
 This project is a modern implementation of the **classic Snake game** using **C++** and the **SFML (Simple and Fast Multimedia Library)** framework.
 
 You control a snake that moves around the grid-based field, eating apples to grow longer while avoiding collisions with walls or itself.
