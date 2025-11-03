@@ -13,6 +13,7 @@ You control a snake that moves around the grid-based field, eating apples to gro
 * 🧃 Each apple eaten increases the snake’s length by one square
 * 🏆 The score increases by **+1** for every apple eaten
 * 💥 The game ends if the snake hits a wall or its own body
+*  Press the taste R to restart the game.
 
 ---
 
