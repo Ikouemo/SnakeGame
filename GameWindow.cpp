@@ -3,29 +3,29 @@
 #include <chrono>
 
 void GameWindow::resetGame() {
-    // Fenster schließen falls vorhanden
+    // Close window if available
     if (window && window->isOpen()) {
         window->close();
         delete window;
         window = nullptr;
     }
 
-    // Neue Fenster erstellen
+    // Create a new window
     window = new sf::RenderWindow(sf::VideoMode(sf::Vector2u(800, 600)), "Snake");
 
-    // Spielzustand zurücksetzen (delegiert an abgeleitete Klasse)
+    // Reset the game state
     reset();
 }
 
 void GameWindow::start() {
-    // Fenster erstellen, falls noch nicht vorhanden
+    // Create a window if is not yet created
     if (!window) {
         window = new sf::RenderWindow(sf::VideoMode(sf::Vector2u(800, 600)), "Snake");
     }
 
     auto last = std::chrono::steady_clock::now();
 
-    // Spiel loop
+    // Main game loop
     while(window->isOpen()) {
         // Process events
         while(auto eventOpt = window->pollEvent()) {
@@ -39,18 +39,18 @@ void GameWindow::start() {
             }
         }
 
-        // Zeitdifferenz berechnen
+        // Measure Time since last frame
         auto now = std::chrono::steady_clock::now();
         double delta = std::chrono::duration<double, std::milli>(now - last).count();
         last = now;
 
-        // Spiel aktualisieren
+        // Update the game
         bool hasCollision = updateGame(delta);
         if(hasCollision) {
             handleInput(sf::Keyboard::Key::Unknown);
         }
 
-        // Rendern
+        // Render everything
         window->clear();
         paintGame(*window);
         window->display();

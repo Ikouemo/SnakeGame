@@ -6,7 +6,7 @@
 #include<random>
 #include<SFML/Graphics.hpp>
 
-constexpr auto STEP_TIME = 100;
+constexpr auto STEP_TIME = 100;                                     // Specifies the time between two steps in milliseconds
 constexpr int WINDOW_WIDHT = 800;
 constexpr int WINDOW_HEIGHT = 600;
 
@@ -16,51 +16,53 @@ SnakeGame::SnakeGame(): dialogText(font, "") {
     width = WINDOW_WIDHT / SQUARE_SIZE;
     height = WINDOW_HEIGHT / SQUARE_SIZE;
 
-    snake = std::make_unique<Snake>(width / 2, height / 2);
+    snake = std::make_unique<Snake>(width / 2, height / 2);        // Creaate a snake in the center
 
-    lastSnakeUpdate = std::chrono::steady_clock::now();
+    lastSnakeUpdate = std::chrono::steady_clock::now();            // initialize timing
 
-    wall.reserve((width + height) * 2);
+    wall.reserve((width + height) * 2);                            // reserve memory for border walls
 
+    // Create top and bottom wall
     for(int x = 0; x < width; x++) {
-        wall.push_back(std::make_unique<Brick>(x, 0));  // obere Wand
-         wall.push_back(std::make_unique<Brick>(x, height - 1));; // untere Wand
+        wall.push_back(std::make_unique<Brick>(x, 0));             // Top wall
+         wall.push_back(std::make_unique<Brick>(x, height - 1));   // Bottom wall
     }
 
-
+    // Create left and right wall
     for(int y = 1; y < height - 1; y++) {
-        wall.push_back(std::make_unique<Brick>(0, y));;  // linke Wand
-        wall.push_back(std::make_unique<Brick>(width - 1, y));; // recte Wand
+        wall.push_back(std::make_unique<Brick>(0, y));;             // Left wall
+        wall.push_back(std::make_unique<Brick>(width - 1, y));;     // Right wall
     }
-    createNewApple();
+    createNewApple();                                               // place first apple
 
+    // Load font UI
     if(!font.openFromFile("arial.ttf")){
         std::cerr << " Failed to load font!" << std::endl;
         exit(1);
     }
 
-        // Font setzen
+    // Configure UI text
     dialogText.setCharacterSize(15);
     dialogText.setFillColor(sf::Color::White);
-    //dialogText.setPosition(100.f, 100.f); // Position im Fenster
+    
  
 }
 
 void SnakeGame::paintGame(sf::RenderWindow& window) {
 
-    // Wand zeichnen
+    // Draw wall
     for (auto& b : wall) {
         b->paintGame(window);
     }
 
-    // Apple zeichnen
+    // Draw apple if exists
     if(apple)
         apple->paintGame(window);
 
-    // snake zeichnen
+    // Draw snake body
     snake->paintGame(window);
 
-    // dialog zeichnen
+    // Draw score / message text
     window.draw(dialogText);
 
 }
@@ -68,26 +70,27 @@ void SnakeGame::paintGame(sf::RenderWindow& window) {
 bool SnakeGame::updateGame( double time ) {
 
     if(gameOver)
-        return true;
+        return true;                                                  // Game is frozen but window still runs
 
     using namespace std::chrono;
     auto now = steady_clock::now();
     auto elapsed = duration_cast<milliseconds> (now - lastSnakeUpdate).count();
 
+    // Not time to move yet -> skip frame
     if(elapsed < STEP_TIME) 
-        return true;                  // noch kein Schritt fällig
+        return true;                  
 
-    int steps = elapsed / STEP_TIME; // wie viele ganze Schritte ausführen
+    int steps = elapsed / STEP_TIME;                                  // how many whole steps to take
 
     for(int i = 0; i < steps; i++) {
 
-        snake->step();
+        snake->step();                                                // Move the snake one tile
         lastSnakeUpdate += milliseconds(STEP_TIME);
         if(checkCollisions())
-            return false;
+            return false;                                             // Dead -> tells GameWindow loop to stop updating
     }
 
-    return true;
+    return true;                                                      // Game continues
     
 }
 
@@ -95,12 +98,13 @@ void SnakeGame::handleInput(sf::Keyboard::Key keyCode) {
 
     if(gameOver) {
         if (keyCode == sf::Keyboard::Key::R) {
-            resetGame();  // Ruft GameWindow::resetGame() auf
+            resetGame();                                              // Full restart the game through base class logic
             return;
         }
         return;
     }
 
+    // Change direction based on pressed key and move immediately
     switch (keyCode)
     {
         case sf::Keyboard::Key::Up:
@@ -127,6 +131,7 @@ void SnakeGame::handleInput(sf::Keyboard::Key keyCode) {
     
 }
 
+// Check against wall collision
 bool SnakeGame::checkCollisions() {
     for(auto& w: wall) {
         if(snake->collidesWith(*w)){
@@ -136,6 +141,8 @@ bool SnakeGame::checkCollisions() {
             
         }
     }
+
+    // Check snake hitting itself
     if(snake->collidesWithSelf()) {
         showDialog(" Self collision\nScore: " + std::to_string(score));
         gameOver = true;
@@ -144,10 +151,10 @@ bool SnakeGame::checkCollisions() {
     }
 
     if(snake->collidesWith(apple->getPosition().getX(), apple->getPosition().getY())) {
-        snake->grow(GROW_AMOUNT);
-        score = score + apple->getValue();
+        snake->grow(GROW_AMOUNT);                                                           // Increase snake length
+        score = score + apple->getValue();                                                  // Update score
         showDialog(" Your Score is: " + std::to_string(score));
-        createNewApple();
+        createNewApple();                                                                   // Create new apple
     }
     return false;
 
@@ -161,6 +168,8 @@ void SnakeGame::showDialog(const std::string& message){
 }
 
 void SnakeGame::createNewApple() {
+
+    // Random number generator for apple placement
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_int_distribution<>distX(1, width - 2);
@@ -168,6 +177,7 @@ void SnakeGame::createNewApple() {
 
     int x, y;
 
+    // Ensure apple does not spawn inside snake
     do {
          x = distX(gen);
          y = distY(gen);
@@ -179,21 +189,16 @@ void SnakeGame::createNewApple() {
 
 }
 void SnakeGame::reset() {
-    // Snake zurücksetzen
-    snake = std::make_unique<Snake>(width / 2, height / 2);
+    
+    snake = std::make_unique<Snake>(width / 2, height / 2);                                      // Recreate snake in the center 
 
-    // Game Over Status zurücksetzen
-    gameOver = false;
+    gameOver = false;                                                                            // Reset game state
 
-    // Score zurücksetzen (falls vorhanden)
-    score = 0;
+    score = 0;                                                                                   // Reset score
 
-    // WICHTIG: Zeitstempel zurücksetzen
-    lastSnakeUpdate = std::chrono::steady_clock::now();
+    lastSnakeUpdate = std::chrono::steady_clock::now();                                          // Reset movement timer
 
-    // Neuen Apfel erstellen
-    createNewApple();
+    createNewApple();                                                                            // New apple
 
-    // Dialog leeren
-    dialogText.setString("");
+    dialogText.setString("");                                                                    // Remove old message
 }
