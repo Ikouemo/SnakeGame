@@ -2,7 +2,7 @@
 #include "SnakeGame.hpp"
 
 
-Brick::Brick(int x, int y): GameItem(x, y) {
+Brick::Brick(int x, int y): GameItem(x, y) {                         
 
 }
 
